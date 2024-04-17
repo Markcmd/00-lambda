@@ -17,14 +17,37 @@ let OR    = \b1 b2 -> ITE b1 TRUE b2
 eval not_true :
   NOT TRUE
   -- (a) fill in your reductions here
-  =d> FALSE 
+  =d> (\b x y -> b y x) (\x y -> x)
+  =b> \x y -> (\x y -> x) y x
+  =a> \x y -> (\z y -> z) y x
+  =a> \x y -> (\z k -> z) y x
+  =b> \x y -> (\k -> y) x
+  =b> \x y -> y
 
 eval and_true_false :
   AND TRUE FALSE
   -- (b) fill in your reductions here
-  =d> FALSE
+  =d> (\b1 b2 -> ITE b1 b2 FALSE) (\x y -> x) (\x y -> y)
+  =b> (\b2 -> ITE (\x y -> x) b2 FALSE)  (\x y -> y)
+  =b> ITE (\x y -> x) (\x y -> y) FALSE
+  =d> (\b x y -> b x y) (\x y -> x) (\x y -> y) (\x y -> y)
+  =d> (\b x y -> b x y) (\x y -> x) (\x y -> y) (\x y -> y)
+  =b> (\x y -> (\x y -> x) x y) (\x y -> y) (\x y -> y)
+  =b> (\y -> (\x y -> x) (\x y -> y) y) (\x y -> y)
+  =b> (\x y -> x) (\x y -> y) (\x y -> y)
+  =b> (\y -> (\x y -> y)) (\x y -> y)
+  =a> (\y -> (\x z -> z)) (\x y -> y)
+  =b> \x z -> z
 
 eval or_false_true :
   OR FALSE TRUE
   -- (c) fill in your reductions here
-  =d> TRUE
+  =d> (\b1 b2 -> ITE b1 TRUE b2) (\x y -> y) (\x y -> x)
+  =b> (\b2 -> ITE (\x y -> y) TRUE b2) (\x y -> x)
+  =b> ITE (\x y -> y) TRUE (\x y -> x)
+  =d> (\b x y -> b x y) (\x y -> y) (\x y -> x) (\x y -> x)
+  =b> (\x y -> (\x y -> y) x y) (\x y -> x) (\x y -> x)
+  =b> (\y -> (\x y -> y) (\x y -> x) y) (\x y -> x)
+  =b> (\x y -> y) (\x y -> x) (\x y -> x)
+  =b> (\y -> y)(\x y -> x)
+  =b> \x y -> x
