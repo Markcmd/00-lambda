@@ -39,10 +39,10 @@ let TODO  = \i g n o r e -> i g n o r e
 -- do not modify text BEFORE this line
 --------------------------------------------------------------------------------
 
-let SKIP1 = TODO       -- (a)
-let DEC   = TODO       -- (b)
+let SKIP1 = \x y -> ITE (FST y) (PAIR TRUE (x (SND y))) (PAIR TRUE (SND y))       -- (a)
+let DEC   = TODO        -- (b)
 let SUB   = TODO       -- (c)
-let ISZ   = TODO       -- (d)
+let ISZ   = \x -> ITE x FALSE TRUE       -- (d)
 let EQL   = TODO       -- (e)
 
 --------------------------------------------------------------------------------
